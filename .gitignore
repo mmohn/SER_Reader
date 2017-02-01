@@ -1,0 +1,5 @@
+*.class
+*.directory
+*.jar
+*tmp
+*.html
