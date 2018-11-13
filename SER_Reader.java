@@ -12,14 +12,14 @@ import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
 
 /*
-Version: 0.1 (2017-02-01, 11:00 mmohn)
+Version: 0.1 (2018-11-13, 17:25 mmohn)
 
 This ImageJ plugin reads .ser files recorded by FEI's TIA software.
 Only 2D data is supported (no spectra). Special features for large
 image stacks can be accessed by starting the reader plugin directly
 from the plugin menu of ImageJ.
 
-Copyright (c) 2017 Michael Mohn, Ulm University
+Copyright (c) 2018 Michael Mohn, Ulm University
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -439,6 +439,9 @@ public class SER_Reader extends ImagePlus implements PlugIn
         }
 
         // change image title to time string
+        // Note that this will only have an effect for image stacks,
+        // where date and time are used as titles for individual frames.
+        // Title of final ImagePlus object will be overwritten with fileName.
         Date dTime = new Date(time*1000);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         returnImage.setTitle(format.format(dTime));
