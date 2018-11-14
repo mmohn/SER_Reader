@@ -1,11 +1,11 @@
 # README for SER_Reader
 
-Version: 0.1 (2017-02-01, 11:00 mmohn)
+Version: 0.2 (2018-11-13, 13:35 mmohn)
 
 
 ## Copyright
 
-(c) 2017 Michael Mohn, Ulm University
+(c) 2018 Michael Mohn, Ulm University
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -58,3 +58,9 @@ HandleExtraFileTypes plugin.
     for other slices.
 - 1D data is not supported (spectra)!
 - reader doesn't check whether file is too large for memory
+
+## Changelog:
+
+### Version 0.2
+
+- New feature: conversion to 32-bit grayscale (default, can be deselected in GUI)
