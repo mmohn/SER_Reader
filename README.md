@@ -51,7 +51,7 @@ Please remember to compile both the SER_Reader plugin and the
 HandleExtraFileTypes plugin.
 
 
-## Known issues:
+## Known issues
 
 - calibration is read once for 1st slice, assuming same calibration
     for all slices. Only width, height and image type will be checked
@@ -59,7 +59,7 @@ HandleExtraFileTypes plugin.
 - 1D data is not supported (spectra)!
 - reader doesn't check whether file is too large for memory
 
-## Changelog:
+## Changelog
 
 ### Version 0.2
 
