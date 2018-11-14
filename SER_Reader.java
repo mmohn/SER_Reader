@@ -12,7 +12,7 @@ import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
 
 /*
-Version: 0.1 (2018-11-13, 17:25 mmohn)
+Version: 0.2 (2018-11-14, 13:35 mmohn)
 
 This ImageJ plugin reads .ser files recorded by FEI's TIA software.
 Only 2D data is supported (no spectra). Special features for large
@@ -45,6 +45,9 @@ public class SER_Reader extends ImagePlus implements PlugIn
 
     // plugin mode
     private boolean advMode;
+    
+    // 32 bit mode
+    private boolean conv32;
 
     // messages
     private String errTitle = "SER Reader Error";
@@ -90,6 +93,9 @@ public class SER_Reader extends ImagePlus implements PlugIn
         controls the program flow,
         shows dialogs if necessary
     */
+    
+        // Default for 32-bit conversion
+        conv32 = true;
 
         // Show open dialog or use given file name
         if ((arg == null) || (arg == "")) {
@@ -128,6 +134,7 @@ public class SER_Reader extends ImagePlus implements PlugIn
             int startSlice = 1; // start with first slice
             int endSlice = valNel; // end with last slice
             int incSlice = 1; // increment is 1 (every slice)
+            
 
             /* a dialog for additional features
                 only in combination with above OpenDialog,
@@ -138,6 +145,7 @@ public class SER_Reader extends ImagePlus implements PlugIn
                 gd.addNumericField("Start:", 1, 0);
                 gd.addNumericField("End:", valNel, 0);
                 gd.addNumericField("Increment:", 1, 0);
+                gd.addCheckbox("Convert to 32-bit", conv32);
                 gd.showDialog();
                 if (!gd.wasCanceled()) { // otherwise don't do anything (stack may be too large!)
                     /* start and end slices:
@@ -165,6 +173,7 @@ public class SER_Reader extends ImagePlus implements PlugIn
                     } else {
                         incSlice = incInput;
                     } // no upper limit for increment, as this will simply result in a single image...
+                    conv32 = gd.getNextBoolean(); // the checkbox for conversion to 32-bit
                 } else {
                     return;
                 }
@@ -207,10 +216,14 @@ public class SER_Reader extends ImagePlus implements PlugIn
                 }
             }
 
-            // assign ImageStack and Calibration
+            // assign ImageStack and Calibration, conversion to 32-bit (if not deselected)
             setStack(imStack);
             setCalibration(calib);
             setTitle(fileName);
+            if (conv32) {
+                ImageConverter imConv = new ImageConverter(this);
+                imConv.convertToGray32();
+            }
 
             // show image
             if ( (arg==null) || arg.equals("") ) show();
